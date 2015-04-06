@@ -9,6 +9,8 @@ class questionLister{
 	private $number;
 	private $name;
 	private $DBdata;
+	private $nameResult;
+	private $questionResult;
 	public $xml;
 	
 	function __construct($data) {
@@ -33,6 +35,10 @@ class questionLister{
 		$DBdata = $conn->query($sql);
 		while ($row = $DBdata->fetch()) {
 			$this->name = $row['name'];
+			$this->nameResult = "user is exist";
+		}
+		if (empty($this->name)) {
+			$this->nameResult = "user is not exist";
 		}
 	}
 	
@@ -42,10 +48,18 @@ class questionLister{
 		$sql = "SELECT `questionId`,`title`,`time`,`answerNumber`,`adoptId` FROM `questions` WHERE `userId`='$this->friendId' LIMIT $lowest,$highest";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$this->DBdata = $conn->query($sql);
+		if (empty($this->DBdata->fetch())) {
+			$this->questionResult = "no question exist";
+		} else {
+			$this->DBdata = $conn->query($sql);
+			$this->questionResult = "success";
+		}
 	}
 	
 	private function create_xml() {
 		$this->xml = "<?xml version='1.0' encoding='UTF-8'?><root>";
+		$this->xml .= "<nameResult>$this->nameResult</nameResult>";
+		$this->xml .= "<questionResult>$this->questionResult</questionResult>";
 		$this->xml .= "<name>$this->name</name>";
 		while($row = $this->DBdata->fetch()){
 			$this->xml .= "<question>";
@@ -61,6 +75,9 @@ class questionLister{
 	public function work() {
 		$this->search_name();
 		$this->search_question();
+		if ($this->nameResult == "user is not exist") {
+			$this->questionResult = $this->nameResult;
+		}
 		$this->create_xml();
 	}
 }

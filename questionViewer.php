@@ -5,7 +5,7 @@ $data = (array)simplexml_load_string($xmldata);
 
 class quesViewer {
 	const METHOD = "GET";
-	private $id;
+	private $userId;
 	private $questionId;
 	private $objectKey;
 	private $title;
@@ -13,13 +13,14 @@ class quesViewer {
 	private $signature;
 	private $answerViewer;
 	private $DBdata;
+	private $result;
 	public $xml;
 	/**
 	 * question viewer
 	 * @param received xml data, an array $data
 	 */
 	function __construct($data) {
-		$this->id = $data['id'];
+		$this->userId = $data['userId'];
 		$this->questionId = $data['questionId'];
 	}
 	
@@ -38,6 +39,12 @@ class quesViewer {
 		$sql = "SELECT `answerId` FROM `answers` WHERE `questionId`='$this->questionId'";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$this->DBdata = $conn->query($sql);
+		if (empty($this->DBdata->fetch())) {
+			$this->result = "no friend added";
+		} else {
+			$this->DBdata = $conn->query($sql);
+			$this->result = "success";
+		}
 	}
 	
 	private function add_answer_xml($data) {
@@ -50,6 +57,7 @@ class quesViewer {
 	
 	private function create_xml() {
 		$this->xml = "<xml version='1.0' encoding='UTF-8'><root>";
+		$this->xml .= "<result>$this->result</result>";
 		$this->xml .= "<title>$this->title</title>";
 		$this->xml .= "<time>$this->time</time>";
 		$this->xml .= "<authorization>".Signature::Authorization(quesViewer::METHOD, $this->objectKey)."</authotization>";

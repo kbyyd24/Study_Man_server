@@ -4,24 +4,24 @@ $xmldata = file_get_contents('php://input');
 $data = (array)simplexml_load_string($xmldata);
 
 class Requester{
-	private $id;
+	private $userId;
 	private $friendId;
 	private $result;
 	public $xml;
 	
 	function __construct($data) {
-		$this->id = $data['id'];
+		$this->userId = $data['userId'];
 		$this->friendId = $data['firendId'];
 	}
 	
 	private function request() {
-		$sql = "INSERT INTO `friend_request` (`requesterId`, `responserId`, `status`) values('$this->id', '$this->friendId', 'wait')";
+		$sql = "INSERT INTO `friend_request` (`requesterId`, `responserId`, `status`) values('$this->userId', '$this->friendId', 'wait')";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$conn->exec($sql);
 	}
 	
 	private function judge_base() {
-		$sql = "SELECT `requestId` FROM `friend_request` WHERE `requesterId`='$this->id' AND `responserId`='$this->firendId'";
+		$sql = "SELECT `requestId` FROM `friend_request` WHERE `requesterId`='$this->userId' AND `responserId`='$this->firendId'";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$DBdata = $conn->query($sql);
 		while($row = $DBdata->fetch()){

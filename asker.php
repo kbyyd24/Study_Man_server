@@ -4,27 +4,27 @@ $xmldata = file_get_contents('php://input');
 $data = (array)simplexml_load_string($xmldata);
 
 class Asker{
-	private $id;
+	private $userId;
 	private $title;
 	private $objectKey;
 	private $result;
 	public $xml;
 	
 	function __construct($data) {
-		$this->id = $data['id'];
+		$this->userId = $data['userId'];
 		$this->title = $data['title'];
 		$this->objectKey = $data['objectKey'];
 	}
 	
 	private function ask() {
 		Signature::get_time("+8 hours");
-		$sql = "INSERT INTO `questions` (`userId`, `title`, `answerNumber`, `objectKey`, `time`, `adoptId`) VALUES ('$this->id', '$this->title', '0', '$this->objectKey', '".Signature::$time."', '0')";
+		$sql = "INSERT INTO `questions` (`userId`, `title`, `answerNumber`, `objectKey`, `time`, `adoptId`) VALUES ('$this->userId', '$this->title', '0', '$this->objectKey', '".Signature::$time."', '0')";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$conn->exec($sql);
 	}
 	
 	private function judge_base() {
-		$sql = "SELECT `questionId` FROM `questions` WHERE `userId`='$this->id' AND `title`='$this->title'";
+		$sql = "SELECT `questionId` FROM `questions` WHERE `userId`='$this->userId' AND `title`='$this->title'";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$DBdata = $conn->query($sql);
 		while($row = $DBdata->fetch()){

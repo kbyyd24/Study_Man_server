@@ -8,6 +8,7 @@ class myQuestionLister{
 	private $page;
 	private $number;
 	private $DBdata;
+	private $result;
 	public $xml;
 	
 	function __construct($data){
@@ -26,10 +27,17 @@ class myQuestionLister{
 		$sql = "SELECT `questionId`,`title`,`time`,`answerNumber`,`adoptId` FROM `questions` WHERE `userId`='$this->userId' LIMIT $lowest,$highest";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$this->DBdata = $conn->query($sql);
+		if (empty($this->DBdata->fetch())) {
+			$this->result = "no question exist";
+		} else {
+			$this->DBdata = $conn->query($sql);
+			$this->result = "success";
+		}
 	}
 	
 	private function create_xml() {
 		$this->xml = "<?xml version='1.0' encoding='UTF-8'?><root>";
+		$this->xml .= "<result>$this->result</result>";
 		while($row = $this->DBdata->fetch()){
 			$this->xml .= "<question>";
 			$this->xml .= "<questionId>".$row['questionId']."</questionId>";

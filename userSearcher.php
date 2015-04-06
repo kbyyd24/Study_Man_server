@@ -5,7 +5,7 @@ $data = (array)simplexml_load_string($xmldata);
 
 class Searcher{
 	private $name;
-	private $id;
+	private $userId;
 	private $result;
 	public $xml;
 	
@@ -18,12 +18,12 @@ class Searcher{
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$DBdata = $conn->query($sql);
 		while ($row = $DBdata->fetch()) {
-			$this->id = $row['userId'];
+			$this->userId = $row['userId'];
 		}
 	}
 	
 	private function check_result() {
-		if (empty($this->id)) {
+		if (empty($this->userId)) {
 			$this->result = "no user";
 		} else {
 			$this->result = "found user";
@@ -33,7 +33,7 @@ class Searcher{
 	private function create_xml() {
 		$this->xml = "<xml version='1.0' encoding='UTF-8'><root>";
 		$this->xml .= "<result>$this->result</result>";
-		$this->xml .= "<id>$this->id</id>";
+		$this->xml .= "<id>$this->userId</id>";
 		$this->xml .= "<name>$this->name<name>";
 		$this->xml .= "</root>";
 	}

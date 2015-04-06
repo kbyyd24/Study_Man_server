@@ -10,7 +10,7 @@ class Handler{
 	public $xml;
 	
 	function __construct($data) {
-		$this->id = $data['id'];
+		$this->id = $data['requestId'];
 		$this->answer = $data['answer'];
 	}
 	

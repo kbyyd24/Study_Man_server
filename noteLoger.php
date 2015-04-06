@@ -5,7 +5,7 @@ header("Content-Type:text/xml;charset=UTF-8");
 
 class Loger{
 	private $objectKey;
-	private $id;
+	private $userId;
 	private $title;
 	private $sharing;
 	private $time;
@@ -13,7 +13,7 @@ class Loger{
 	public $xml;
 	
 	function __construct($data) {
-		$this->id = $data['id'];
+		$this->userId = $data['userId'];
 		$this->title = $data['title'];
 		$this->objectKey = $data['objectKey'];
 		$this->sharing = $data['sharing'];
@@ -21,7 +21,7 @@ class Loger{
 	}
 		
 	private function save_into_base() {
-		$sql = "INSERT INTO `notes` (`userId`, `objectKey`, `title`, `sharing`, `time`) VALUES ('$this->id', '$this->objectKey', '$this->title', '$this->sharing', '$this->time')";
+		$sql = "INSERT INTO `notes` (`userId`, `objectKey`, `title`, `sharing`, `time`) VALUES ('$this->userId', '$this->objectKey', '$this->title', '$this->sharing', '$this->time')";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$conn->exec($sql);
 		return true;
@@ -38,7 +38,7 @@ class Loger{
 	}
 	
 	private function judge_base() {
-		$sql = "SELECT `noteId` FROM `notes` WHERE `userId`='$this->id' AND `title`='$this->title'";
+		$sql = "SELECT `noteId` FROM `notes` WHERE `userId`='$this->userId' AND `title`='$this->title'";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$DBdata = $conn->query($sql);
 		while($row = $DBdata->fetch()){

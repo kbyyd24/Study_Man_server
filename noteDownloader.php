@@ -10,34 +10,38 @@ $data = (array)simplexml_load_string($xmldata);
 
 class Downloader{
 	const METHOD = "GET";
-	private $id;
+	private $userId;
 	private $noteId;
+	private $result;
 	private $objectKey;
 	private $signature;
 	public $xml;
 	
 	function __construct($data){
-		$this->id = $data['id'];
+		$this->userId = $data['userId'];
 		$this->noteId = $data['noteId'];
 	}
 	
 	private function get_messages() {
-		$sql = "SELECT * FROM `notes` WHERE `userId`='$this->id' AND `noteId`='$this->noteId'";
+		$sql = "SELECT * FROM `notes` WHERE `noteId`='$this->noteId'";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$DBdata = $conn->query($sql);
 		while ($row = $DBdata->fetch()) {
 			$this->objectKey = $row['objectKey'];
+			$this->result = "success";
 		}
-		mysql_close($conn);
+		if (empty($this->result)) {
+			$this->result = "fail";
+		}
 	}
 	
 	private function create_xml() {
-		$this->xml = "<?xml version='1.0' encoding='UTF-8'?>";
-		$this->xml .= "<root>";
+		$this->xml = "<?xml version='1.0' encoding='UTF-8'?><root>";
+		$this->xml .= "<result>$this->result</result>";
 		$this->xml .= "<authorization>".Signature::Authorization(Downloader::METHOD, $this->objectKey)."</authorization>";
 		$this->xml .= "<bucket>".DBconnecter::BUCKET."</bucket>";
 		$this->xml .= "<date>".Signature::$time."</date>";
-		$this->xml .= "<id>$this->id</id>";
+		$this->xml .= "<userId>$this->userId</userId>";
 		$this->xml .= "<objectKey>$this->objectKey</objectKey>";
 		$this->xml .= "</root>";
 	}

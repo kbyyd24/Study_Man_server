@@ -18,6 +18,7 @@ class ansViewer {
 	private $title;
 	private $name;
 	private $xmlTemp;
+	private $result;
 	public $xml;
 	/**
 	 * 
@@ -49,6 +50,12 @@ class ansViewer {
 		$sql = "SELECT * FROM `answers` WHERE `answerId`='$this->answerId'";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$DBdata = $conn->query($sql);
+		if (empty($this->DBdata->fetch())) {
+			$this->result = "answer is not exist";
+		} else {
+			$this->DBdata = $conn->query($sql);
+			$this->result = "answer is exist";
+		}
 		while ($row = $DBdata->fetch()) {
 			$this->questionId = $row['questionId'];
 			$this->responserId = $row['responserId'];
@@ -61,7 +68,9 @@ class ansViewer {
 	}
 	
 	private function create_xml() {
-		$this->xmlTemp = "<name>$this->name</name>";
+		$this->xmlTemp = "<result>$this->result</result>";
+		$this->xmlTemp .= "<name>$this->name</name>";
+		$this->xmlTemp .= "<answerId>$this->answerId</answerId>";
 		$this->xmlTemp .= "<authorization>".Signature::Authorization(viewer::METHOD, $this->objectKey)."</authorization>";
 		$this->xmlTemp .= "<bucket>".Signature::BUCKET."</bucket>";
 		$this->xmlTemp .= "<objectKey>$this->objectKey</objectKey>";

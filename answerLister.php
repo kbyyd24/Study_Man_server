@@ -8,6 +8,7 @@ class answerLister{
 	private $page;
 	private $number;
 	private $DBdata;
+	private $result;
 	public $xml;
 	
 	function __construct($data){
@@ -26,10 +27,17 @@ class answerLister{
 		$sql = "SELECT `answerId`,`questionId`,`title`,`time`,`adopted` FROM `answers` WHERE `userId`='$this->userId' LIMIT $lowest,$highest";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$this->DBdata = $conn->query($sql);
+		if (empty($this->DBdata->fetch())) {
+			$this->result = "no answer exist";
+		} else {
+			$this->DBdata = $conn->query($sql);
+			$this->result = "success";
+		}
 	}
 	
 	private function create_xml() {
 		$this->xml = "<?xml version='1.0' encoding='UTF-8'?><root>";
+		$this->xml .= "<result>$this->result</result>";
 		while($row = $this->DBdata->fetch()){
 			$this->xml .= "<answer>";
 			$this->xml .= "<answerId>".$row['answerId']."</answerId>";
