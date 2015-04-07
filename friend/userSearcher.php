@@ -10,7 +10,7 @@ class Searcher{
 	public $xml;
 	
 	function __construct($data) {
-		$this->name = $data['userName'];
+		$this->name = $data['name'];
 	}
 	
 	private function search() {
