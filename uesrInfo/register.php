@@ -24,7 +24,7 @@ class Signin{
 		while($row = $DBdata->fetch()){
 			$data = $row['name'];
 		}
-		if (!$data) {
+		if (empty($data)) {
 			$this->save_user();
 		} else {
 			$this->result = "This account is existed!";
