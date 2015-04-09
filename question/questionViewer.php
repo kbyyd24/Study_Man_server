@@ -1,4 +1,6 @@
 <?php
+include_once '../tools/DBconnecter.php';
+
 header("Content-Type:text/xml;charset:UTF-8");
 $xmldata = file_get_contents('php://input');
 $data = (array)simplexml_load_string($xmldata);

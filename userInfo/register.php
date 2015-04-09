@@ -1,8 +1,8 @@
 <?php
 include_once '../tools/DBconnecter.php';
 
-// $xmldata = file_get_contents('php://input');
-$data = (array)simplexml_load_string("<?xml version='1.0' encoding='UTF-8'?><root><name>kbyyd24</name><password>123456</password></root>");
+$xmldata = file_get_contents('php://input');
+$data = (array)simplexml_load_string($xmldata);
 header("Content-Type:text/xml;charset=UTF-8");
 
 class Signin{
