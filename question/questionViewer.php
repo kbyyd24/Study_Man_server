@@ -58,7 +58,7 @@ class quesViewer {
 	}
 	
 	private function create_xml() {
-		$this->xml = "<xml version='1.0' encoding='UTF-8'><root>";
+		$this->xml = "<?xml version='1.0' encoding='UTF-8'?><root>";
 		$this->xml .= "<result>$this->result</result>";
 		$this->xml .= "<title>$this->title</title>";
 		$this->xml .= "<time>$this->time</time>";

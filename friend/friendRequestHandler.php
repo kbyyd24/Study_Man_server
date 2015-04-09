@@ -37,7 +37,7 @@ class Handler{
 	}
 	
 	private function create_xml() {
-		$this->xml = "<xml version='1.0' encoding='UTF-8'><root>";
+		$this->xml = "<?xml version='1.0' encoding='UTF-8'?><root>";
 		$this->xml .= "<result>$this->result</result>";
 		$this->xml .= "</root>";
 	}

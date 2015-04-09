@@ -65,7 +65,7 @@ class Lister{
 	}
 
 	public function work() {
-		$this->xml = "<xml version='1.0' encoding='UTF-8'><root>";
+		$this->xml = "<?xml version='1.0' encoding='UTF-8'?><root>";
 		$this->get_data1();
 		$this->create_xml1();
 		$this->get_data2();

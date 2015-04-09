@@ -78,7 +78,7 @@ class ansViewer {
 		$this->xmlTemp .= "<objectKey>$this->objectKey</objectKey>";
 		$this->xmlTemp .= "<date>".Signature::$time."</date>";
 		
-		$this->xml = "<xml version='1.0' encoding='UTF-8'><root>";
+		$this->xml = "<?xml version='1.0' encoding='UTF-8'?><root>";
 		$this->xml .= $this->xmlTemp;
 		$this->xml .= "<time>$this->time</time>";
 		$this->xml .= "<adopted>$this->adopted</adopted>";
