@@ -3,7 +3,7 @@ include_once '../tools/DBconnecter.php';
 
 // $xmldata = file_get_contents('php://input');
 $data = (array)simplexml_load_string("<?xml version='1.0' encoding='UTF-8'?><root><name>kbyyd24</name><password>123456</password></root>");
-// header("Content-Type:text/xml;charset=UTF-8");
+header("Content-Type:text/xml;charset=UTF-8");
 
 class Signin{
 	private $name;
@@ -42,15 +42,15 @@ class Signin{
 		while($row = $DBdata->fetch()){
 			$this->id = $row['id'];
 		}
-		$this->result = "sign up success!";
+		$this->judge_base();
 	}
 	
 	private function judge_base() {
-		$sql = "SELECT `userId` FROM `users_information` WHERE `name`='$this->name'";
+		$sql = "SELECT `id` FROM `users_infomation` WHERE `name`='$this->name'";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$DBdata = $conn->query($sql);
 		while($row = $DBdata->fetch()){
-			$id = $row['userId'];
+			$id = $row['id'];
 		}
 		if (empty($id)) {
 			$this->result = "register fail";
@@ -68,7 +68,6 @@ class Signin{
 	
 	public function work() {
 		$this->search_user();
-		$this->judge_base();
 		$this->create_xml();
 	}
 }
