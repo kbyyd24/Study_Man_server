@@ -17,7 +17,7 @@ class ckecker{
 	
 	function __construct($data) {
 		$this->userId = $data['userId'];
-		$this->time = gmdate("D, d M Y", strtotime("+128 hours"));
+		$this->time = gmdate("D, d M Y", strtotime("+8 hours"));
 	}
 	
 	private function check() {
