@@ -316,6 +316,7 @@ uploader:（上传）可以上传笔记，提问和回答
 	<bucket>				//bucket名字
 	<objectKey>				//上传的笔记、提问或回答在OSS上的位置
 	<date>					//签名时间
+	<contentType>			//Content-Type
 </root>
 
 checker:（签到）

@@ -69,6 +69,7 @@ class uploader {
 		$this->xml .= "<bucket>".Signature::BUCKET."</bucket>";
 		$this->xml .= "<objectKey>".$this->objectKey."</objectKey>";
 		$this->xml .= "<date>".Signature::$time."</date>";
+		$this->xml .= "<contentType>$this->contentType</contentType>";
 		$this->xml .= "</root>";		
 	}
 	
