@@ -3,8 +3,8 @@ include_once 'DBconnecter.php';
 include_once 'Signature.php';
 
 header("Content-Type:text/xml;charset:UTF-8");
-// $xmldata = file_get_contents('php://input');
-$data = (array)simplexml_load_string("<?xml version='1.0' encoding='UTF-8'?><root><objectKey>test.txt</objectKey><contentType>text/plain</contentType><userId>4</userId><type>note</type><title>test</title></root>");
+$xmldata = file_get_contents('php://input');
+$data = (array)simplexml_load_string($xmldata);
 
 class uploader {
 	const METHOD = "PUT";
