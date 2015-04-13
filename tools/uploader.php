@@ -45,20 +45,20 @@ class uploader {
 	private function set_objectKey() {
 		if (empty($this->title) || $this->title == NULL) {
 			$this->objectKey = $this->userId."/".$this->type."/".$this->objectKey;
-			$this->result = "ready to upload";
+			$this->result = "ready to upload1";
 		}elseif ($this->type == "note") {
 			if ($this->check_note()) {
 				$this->result = "note is exist";
 			} else {
 				$this->objectKey = $this->userId."/".$this->type."/".$this->objectKey;
-				$this->result = "ready to upload";
+				$this->result = "ready to upload2";
 			}
 		}elseif ($this->type == "question") {
 			if ($this->check_question()) {
 				$this->result = "question is exist";
 			} else {
 				$this->objectKey = $this->userId."/".$this->type."/".$this->objectKey;
-				$this->result = "ready to upload";
+				$this->result = "ready to upload3";
 			}
 		}else {
 			$this->result = "type is wrong";
@@ -73,8 +73,6 @@ class uploader {
 		$this->xml .= "<objectKey>".$this->objectKey."</objectKey>";
 		$this->xml .= "<date>".Signature::$time."</date>";
 		$this->xml .= "<contentType>$this->contentType</contentType>";
-		$this->xml .= "<title>$this->title</title>";
-		$this->xml .= "<type>$this->type</type>";
 		$this->xml .= "</root>";		
 	}
 	
