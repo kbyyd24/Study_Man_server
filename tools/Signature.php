@@ -9,9 +9,9 @@ class Signature {
 		$num = func_num_args();
 		$arr = func_get_args();
 		if ($num == 2) {
-			Signature::download($arr[0], $arr[1]);
+			return Signature::download($arr[0], $arr[1]);
 		} elseif ($num == 3) {
-			Signature::upload($arr[0], $arr[1], $a[2]);
+			return Signature::upload($arr[0], $arr[1], $arr[2]);
 		}
 	}
 

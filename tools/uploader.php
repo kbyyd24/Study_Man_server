@@ -1,9 +1,10 @@
 <?php
-include_once '../tools/DBconnecter.php';
+include_once 'DBconnecter.php';
+include_once 'Signature.php';
 
 header("Content-Type:text/xml;charset:UTF-8");
-$xmldata = file_get_contents('php://input');
-$data = (array)simplexml_load_string($xmldata);
+// $xmldata = file_get_contents('php://input');
+$data = (array)simplexml_load_string("<?xml version='1.0' encoding='UTF-8'?><root><objectKey>test.txt</objectKey><contentType>text/plain</contentType><userId>4</userId><type>note</type><title>test</title></root>");
 
 class uploader {
 	const METHOD = "PUT";
@@ -42,34 +43,38 @@ class uploader {
 	}
 	
 	private function set_objectKey() {
-		if (empty($this->title)) {
+		if (empty($this->title) || $this->title == NULL) {
 			$this->objectKey = $this->userId."/".$this->type."/".$this->objectKey;
-		}elseif ($this->type == note) {
+			$this->result = "ready to upload";
+		}elseif ($this->type == "note") {
 			if ($this->check_note()) {
-				$this->reslut = "note is exist";
+				$this->result = "note is exist";
 			} else {
 				$this->objectKey = $this->userId."/".$this->type."/".$this->objectKey;
+				$this->result = "ready to upload";
 			}
 		}elseif ($this->type == "question") {
 			if ($this->check_question()) {
 				$this->result = "question is exist";
 			} else {
 				$this->objectKey = $this->userId."/".$this->type."/".$this->objectKey;
+				$this->result = "ready to upload";
 			}
-		}
-		if (empty($this->title)) {
-			$this->result = "ready to upload";
+		}else {
+			$this->result = "type is wrong";
 		}
 	}
 	
 	private function create_xml() {
-		$this->xml = "<xml verson='1.0' encoding='UTF-8'><root>";
+		$this->xml = "<?xml version='1.0' encoding='UTF-8'?><root>";
 		$this->xml .= "<result>$this->result</result>";
 		$this->xml .= "<authorization>".Signature::Authorization(uploader::METHOD, $this->objectKey, $this->contentType)."</authorization>";
 		$this->xml .= "<bucket>".Signature::BUCKET."</bucket>";
 		$this->xml .= "<objectKey>".$this->objectKey."</objectKey>";
 		$this->xml .= "<date>".Signature::$time."</date>";
 		$this->xml .= "<contentType>$this->contentType</contentType>";
+		$this->xml .= "<title>$this->title</title>";
+		$this->xml .= "<type>$this->type</type>";
 		$this->xml .= "</root>";		
 	}
 	
