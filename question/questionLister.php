@@ -32,7 +32,7 @@ class questionLister{
 	}
 	
 	private function search_name() {
-		$sql = "SELECT `name` FROM `users_information` WHERE `userId`='$this->friendId'";
+		$sql = "SELECT `name` FROM `users_infomation` WHERE `id`='$this->friendId'";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$DBdata = $conn->query($sql);
 		while ($row = $DBdata->fetch()) {
@@ -72,6 +72,7 @@ class questionLister{
 			$this->xml .= "<adoptId>".$row['adoptId']."</adoptId>";
 			$this->xml .= "</question>";
 		}
+		$this->xml .= "</root>";
 	}
 	
 	public function work() {
