@@ -27,7 +27,7 @@ class responser{
 		$this->result = 1;
 	}
 	
-	private function judge_base() {
+	private function judge_answer() {
 		$sql = "SELECT `answerId` FROM `answers` WHERE `questionId`='$this->questionId' AND `responserId`='$this->responserId'";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$DBdata = $conn->query($sql);
@@ -39,6 +39,12 @@ class responser{
 		}
 	}
 	
+	private function add_number() {
+		$sql = "UPDATE `questions` SET `answerNumber`=answerNumber+1 WHERE `questionId`=$this->questionId";
+		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
+		$conn->exec($sql);
+	}
+	
 	private function create_xml() {
 		$this->xml = "<?xml version='1.0' encoding='UTF-8'?><root>";
 		$this->xml .= "<result>$this->result</result>";
@@ -46,12 +52,16 @@ class responser{
 	}
 	
 	public function work() {
-		$this->judge_base();
+		$this->judge_answer();
+		if ($this->result == 1) {
+			$this->result = 2;
+		}
 		if ($this->result == 0) {
 			$this->response();
-			$this->judge_base();
-		} else {
-			$this->result = 2;
+			$this->judge_answer();
+		} 
+		if ($this->result == 1) {
+			$this->add_number();
 		}
 		$this->create_xml();
 	}
