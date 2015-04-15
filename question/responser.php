@@ -31,7 +31,7 @@ class responser{
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$DBdata = $conn->query($sql);
 		while($row = $DBdata->fetch()){
-			$answerId = $row['answreId'];
+			$answerId = $row['answerId'];
 		}
 		if (empty($answerId)) {
 			$this->result = "take in answer fail";
