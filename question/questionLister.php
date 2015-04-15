@@ -1,11 +1,10 @@
 <?php
 include_once '../tools/DBconnecter.php';
 
-// header("Content-Type:text/xml;charset:UTF-8");
+header("Content-Type:text/xml;charset:UTF-8");
 // $xmldata = file_get_contents('php://input');
 $xmldata = "<?xml version='1.0' encoding='UTF-8'?><root><friendId>4</friendId><page>1</page></root>";
 $data = (array)simplexml_load_string($xmldata);
-print_r($data);
 class questionLister{
 	private $friendId;
 	private $page;
@@ -93,4 +92,4 @@ function main($data) {
 	echo $lister->xml;
 }
 
-// main($data);
+main($data);
