@@ -1,5 +1,6 @@
 <?php
 include_once '../tools/DBconnecter.php';
+include_once '../tools/Signature.php';
 
 header("Content-Type:text/xml;charset:UTF-8");
 $xmldata = file_get_contents('php://input');
