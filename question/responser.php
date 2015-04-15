@@ -31,9 +31,9 @@ class responser{
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$DBdata = $conn->query($sql);
 		while($row = $DBdata->fetch()){
-			$questionId = $row['questionId'];
+			$answerId = $row['answreId'];
 		}
-		if (empty($questionId)) {
+		if (empty($answerId)) {
 			$this->result = "take in answer fail";
 		} else {
 			$this->result = "take in answer success";
