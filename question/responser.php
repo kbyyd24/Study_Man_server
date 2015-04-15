@@ -10,7 +10,7 @@ class responser{
 	private $questionId;
 	private $responserId;
 	private $objectKey;
-	private $result;
+	private $result = 1;
 	public $xml;
 	
 	function __construct($data) {
@@ -24,6 +24,7 @@ class responser{
 		$sql = "INSERT INTO `answers` (`questionId`, `responserId`, `time`, `objectKey`, `adopted`) VALUES ('$this->questionId', '$this->responserId', '".Signature::$time."', '$this->objectKey', '0')";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$conn->exec($sql);
+		$this->result = 1;
 	}
 	
 	private function judge_base() {
@@ -34,9 +35,7 @@ class responser{
 			$answerId = $row['answerId'];
 		}
 		if (empty($answerId)) {
-			$this->result = "take in answer fail";
-		} else {
-			$this->result = "take in answer success";
+			$this->result = 0;
 		}
 	}
 	
@@ -47,8 +46,13 @@ class responser{
 	}
 	
 	public function work() {
-		$this->response();
 		$this->judge_base();
+		if ($this->result == 0) {
+			$this->response();
+			$this->judge_base();
+		} else {
+			$this->result = 2;
+		}
 		$this->create_xml();
 	}
 }
