@@ -51,7 +51,8 @@ class questionLister{
 		$sql = "SELECT `questionId`,`title`,`time`,`answerNumber`,`adoptId` FROM `questions` WHERE `userId`='$this->friendId' LIMIT $lowest,$highest";
 		$conn = new PDO(DBconnecter::HOST, DBconnecter::USER, DBconnecter::PASSWORD);
 		$this->DBdata = $conn->query($sql);
-		if (empty($this->DBdata->fetch())) {
+		$row = $this->DBdata->fetch();
+		if (empty($row)) {
 			$this->questionResult = "no question exist";
 		} else {
 			$this->DBdata = $conn->query($sql);
